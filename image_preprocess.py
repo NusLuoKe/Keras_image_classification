@@ -31,57 +31,46 @@ def rename_files(file_dir, new_prefix):
         num += 1
 
 
-def resizeImg(**args):
+def resize_img(ori_img, dst_img, dst_w, dst_h, save_q=75):
     '''
-    :param args:
+    :param ori_img: path of the original image
+    :param dst_img: path of the new image to be stored
+    :param dst_w: desitination width of the new image
+    :param dst_h: destination height of the new image
+    :param save_q: 0 - 100, image quality
     :return:
-
-    example：
-    ori_img = "D:/ori/img_origin.jpg"
-    dst_img = "D:/dst/img_resize.jpg"
-    dst_w = 94
-    dst_h = 94
-    save_q = 100
-
-    resizeImg(ori_img=ori_img,dst_img=dst_img,dst_w=dst_w,dst_h=dst_h,save_q = save_q)
     '''
-    args_key = {'ori_img': '', 'dst_img': '', 'dst_w': '', 'dst_h': '', 'save_q': 75}
-    arg = {}
-    for key in args_key:
-        if key in args:
-            arg[key] = args[key]
-
-    img = Image.open(arg['ori_img'])
+    img = Image.open(ori_img)
     ori_w, ori_h = img.size
-    widthRatio = heightRatio = None
+    width_ratio = height_ratio = None
     ratio = 1
-    if (ori_w and ori_w > arg['dst_w']) or (ori_h and ori_h > arg['dst_h']):
-        if arg['dst_w'] and ori_w > arg['dst_w']:
-            widthRatio = float(arg['dst_w']) / ori_w  # 正确获取小数的方式
-        if arg['dst_h'] and ori_h > arg['dst_h']:
-            heightRatio = float(arg['dst_h']) / ori_h
+    if (ori_w and ori_w > dst_w) or (ori_h and ori_h > dst_h):
+        if dst_w and ori_w > dst_w:
+            width_ratio = float(dst_w) / ori_w  # 正确获取小数的方式
+        if dst_h and ori_h > dst_h:
+            height_ratio = float(dst_h) / ori_h
 
-        if widthRatio and heightRatio:
-            if widthRatio < heightRatio:
-                ratio = widthRatio
+        if width_ratio and height_ratio:
+            if width_ratio < height_ratio:
+                ratio = width_ratio
             else:
-                ratio = heightRatio
+                ratio = height_ratio
 
-        if widthRatio and not heightRatio:
-            ratio = widthRatio
-        if heightRatio and not widthRatio:
-            ratio = heightRatio
+        if width_ratio and not height_ratio:
+            ratio = width_ratio
+        if height_ratio and not width_ratio:
+            ratio = height_ratio
 
-        newWidth = int(ori_w * ratio)
-        newHeight = int(ori_h * ratio)
+        new_width = int(ori_w * ratio)
+        new_height = int(ori_h * ratio)
     else:
-        newWidth = ori_w
-        newHeight = ori_h
+        new_width = ori_w
+        new_height = ori_h
 
-    img.resize((newWidth, newHeight), Image.ANTIALIAS).save(arg['dst_img'], quality=arg['save_q'])
+    img.resize((new_width, new_height), Image.ANTIALIAS).save(dst_img, quality=save_q)
 
 
-def generateImage(img_dir, save_dir, prefix, gen_num=1, save_format='jpeg'):
+def generate_image(img_dir, save_dir, prefix, gen_num=1, save_format='jpeg'):
     '''
     :param img_dir: the directory of images need to be augmented
     :param save_dir: the directory of augmented images to be stored
@@ -124,57 +113,47 @@ def generateImage(img_dir, save_dir, prefix, gen_num=1, save_format='jpeg'):
                     break
 
 
-def clipResizeImg(**kwargs):
+def clip_resize_img(ori_img, dst_img, dst_w, dst_h, save_q=75):
     '''
-    :param kwargs:
+    :param ori_img: path of the original image
+    :param dst_img: path of the new image to be stored
+    :param dst_w: desitination width of the new image
+    :param dst_h: destination height of the new image
+    :param save_q: 0 - 100, image quality
     :return:
-
-    example：
-    ori_img = "D:/ori/img_origin.jpg"
-    dst_img = "D:/dst/img_resize.jpg"
-    dst_w = 94
-    dst_h = 94
-    save_q = 100
-
-    resizeImg(ori_img=ori_img,dst_img=dst_img,dst_w=dst_w,dst_h=dst_h,save_q = save_q)
     '''
-    args_key = {'ori_img': '', 'dst_img': '', 'dst_w': '', 'dst_h': '', 'save_q': 75}
-    arg = {}
-    for key in args_key:
-        if key in kwargs:
-            arg[key] = kwargs[key]
-
-    im = Image.open(arg['ori_img'])
+    im = Image.open(ori_img)
     ori_w, ori_h = im.size
 
-    dst_scale = float(arg['dst_h']) / arg['dst_w']  # 目标高宽比
-    ori_scale = float(ori_h) / ori_w  # 原高宽比
+    dst_scale = float(dst_h) / dst_w  # destination aspect ratio
+    ori_scale = float(ori_h) / ori_w  # original aspect ratio
 
+    # too high or too wide: use too high as an example:
+    # keep the width unchanged, calculate the destination height by apply the equation: height = width * dst_scale
+    # then calculate how high of the image needs to be cut, that is： ori_h - height
+    # at last, cut y = （ori_h - height） / 2 each from the top and bottom
     if ori_scale >= dst_scale:
-        # 过高
         width = ori_w
         height = int(width * dst_scale)
 
         x = 0
-        y = (ori_h - height) / 3
+        y = (ori_h - height) / 2
 
     else:
-        # 过宽
         height = ori_h
         width = int(height * dst_scale)
 
         x = (ori_w - width) / 2
         y = 0
 
-    # 裁剪
+    # Crop picture, make sure the new image has correct specified aspect ratio.
+    # initial point is (x, y), end point is (width + x, height + y), keep images in the box area
     box = (x, y, width + x, height + y)
-    # 这里的参数可以这么认为：从某图的(x,y)坐标开始截，截到(width+x,height+y)坐标
-    # 所包围的图像，crop方法与php中的imagecopy方法大为不一样
-    newIm = im.crop(box)
-    im = None
+    new_im = im.crop(box)
+    im.close()
 
-    # 压缩
-    ratio = float(arg['dst_w']) / width
-    newWidth = int(width * ratio)
-    newHeight = int(height * ratio)
-    newIm.resize((newWidth, newHeight), Image.ANTIALIAS).save(arg['dst_img'], quality=arg['save_q'])
+    # Compress the picture to the specified size
+    ratio = float(dst_w) / width
+    new_width = int(width * ratio)
+    new_height = int(height * ratio)
+    new_im.resize((new_width, new_height), Image.ANTIALIAS).save(dst_img, quality=save_q)
