@@ -9,28 +9,6 @@ from PIL import Image
 from keras.preprocessing.image import ImageDataGenerator, img_to_array, load_img
 
 
-def rename_files(file_dir, new_prefix):
-    '''
-    :param file_dir: The directory of the files which need to be renamed
-    :param new_prefix: the prefix of new files
-    :return:
-
-    example:
-    rename_files('D:/cat', 'cat'): files in 'D:/cat' will be named as 'cat_0', 'cat_1', 'cat_2' ...
-    '''
-    num = 0
-    for file in os.listdir(file_dir):
-        oldDir = os.path.join(file_dir, file)
-        if os.path.isdir(oldDir):
-            continue;
-        filetype = os.path.splitext(file)[1]
-        n = str(num)
-        newName = new_prefix + '_' + n
-        newDir = os.path.join(file_dir, newName + filetype)
-        os.rename(oldDir, newDir)
-        num += 1
-
-
 def resize_img(ori_img, dst_img, dst_w, dst_h, save_q=75):
     '''
     :param ori_img: path of the original image
@@ -68,49 +46,6 @@ def resize_img(ori_img, dst_img, dst_w, dst_h, save_q=75):
         new_height = ori_h
 
     img.resize((new_width, new_height), Image.ANTIALIAS).save(dst_img, quality=save_q)
-
-
-def generate_image(img_dir, save_dir, prefix, gen_num=1, save_format='jpeg'):
-    '''
-    :param img_dir: the directory of images need to be augmented
-    :param save_dir: the directory of augmented images to be stored
-    :param prefix: prefix of the name of augmented images
-    :param save_format: format of augmented images. 'jepg' or 'png'
-    :return:
-    '''
-    image_datagen = ImageDataGenerator(
-        featurewise_center=True,
-        featurewise_std_normalization=True,
-        rotation_range=15,
-        width_shift_range=0.2,
-        height_shift_range=0.2,
-        shear_range=0.2,
-        zoom_range=0.2,
-        horizontal_flip=True,
-        vertical_flip=True,
-        fill_mode='reflect')
-
-    if os.path.isdir(save_dir):
-        pass
-    else:
-        os.makedirs(save_dir)
-
-    for file in os.listdir(img_dir):
-        if os.path.isdir(file):
-            continue
-        else:
-
-            image_dir = os.path.join(img_dir, file)
-            img = load_img(image_dir)
-            x = img_to_array(img)
-            x = x.reshape((1,) + x.shape)
-
-            image_datagen.fit(x, augment=True)
-            i = 0
-            for _ in image_datagen.flow(x, save_to_dir=save_dir, save_prefix=prefix, save_format=save_format):
-                i += 1
-                if i >= gen_num:
-                    break
 
 
 def clip_resize_img(ori_img, dst_img, dst_w, dst_h, save_q=75):
@@ -157,3 +92,68 @@ def clip_resize_img(ori_img, dst_img, dst_w, dst_h, save_q=75):
     new_width = int(width * ratio)
     new_height = int(height * ratio)
     new_im.resize((new_width, new_height), Image.ANTIALIAS).save(dst_img, quality=save_q)
+
+
+def generate_image(img_dir, save_dir, prefix, gen_num=1, save_format='jpeg'):
+    '''
+    :param img_dir: the directory of images need to be augmented
+    :param save_dir: the directory of augmented images to be stored
+    :param prefix: prefix of the name of augmented images
+    :param save_format: format of augmented images. 'jepg' or 'png'
+    :return:
+    '''
+    image_datagen = ImageDataGenerator(
+        featurewise_center=True,
+        featurewise_std_normalization=True,
+        rotation_range=15,
+        width_shift_range=0.2,
+        height_shift_range=0.2,
+        shear_range=0.2,
+        zoom_range=0.2,
+        horizontal_flip=True,
+        vertical_flip=True,
+        fill_mode='reflect')
+
+    if os.path.isdir(save_dir):
+        pass
+    else:
+        os.makedirs(save_dir)
+
+    for file in os.listdir(img_dir):
+        if os.path.isdir(file):
+            continue
+        else:
+
+            image_dir = os.path.join(img_dir, file)
+            img = load_img(image_dir)
+            x = img_to_array(img)
+            x = x.reshape((1,) + x.shape)
+
+            image_datagen.fit(x, augment=True)
+            i = 0
+            for _ in image_datagen.flow(x, save_to_dir=save_dir, save_prefix=prefix, save_format=save_format):
+                i += 1
+                if i >= gen_num:
+                    break
+
+
+def rename_files(file_dir, new_prefix):
+    '''
+    :param file_dir: The directory of the files which need to be renamed
+    :param new_prefix: the prefix of new files
+    :return:
+
+    example:
+    rename_files('D:/cat', 'cat'): files in 'D:/cat' will be named as 'cat_0', 'cat_1', 'cat_2' ...
+    '''
+    num = 0
+    for file in os.listdir(file_dir):
+        oldDir = os.path.join(file_dir, file)
+        if os.path.isdir(oldDir):
+            continue;
+        filetype = os.path.splitext(file)[1]
+        n = str(num)
+        newName = new_prefix + '_' + n
+        newDir = os.path.join(file_dir, newName + filetype)
+        os.rename(oldDir, newDir)
+        num += 1
