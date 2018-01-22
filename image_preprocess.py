@@ -24,7 +24,7 @@ def resize_img(ori_img, dst_img, dst_w, dst_h, save_q=75):
     ratio = 1
     if (ori_w and ori_w > dst_w) or (ori_h and ori_h > dst_h):
         if dst_w and ori_w > dst_w:
-            width_ratio = float(dst_w) / ori_w  # 正确获取小数的方式
+            width_ratio = float(dst_w) / ori_w
         if dst_h and ori_h > dst_h:
             height_ratio = float(dst_h) / ori_h
 
