@@ -64,7 +64,7 @@ def clip_resize_img(ori_img, dst_img, dst_w, dst_h, save_q=75):
     ori_scale = float(ori_h) / ori_w  # original aspect ratio
 
     # too high or too wide: use too high as an example:
-    # keep the width unchanged, calculate the destination height by apply the equation: height = width * dst_scale
+    # keep the width unchanged, calculate the destination height by apply the equation: height = width * (dst_h / dst_w)
     # then calculate how high of the image needs to be cut, that is： ori_h - height
     # at last, cut y = （ori_h - height） / 2 each from the top and bottom
     if ori_scale >= dst_scale:
@@ -105,7 +105,7 @@ def generate_image(img_dir, save_dir, prefix, gen_num=1, save_format='jpeg'):
     image_datagen = ImageDataGenerator(
         featurewise_center=True,
         featurewise_std_normalization=True,
-        rotation_range=15,
+        rotation_range=10,
         width_shift_range=0.2,
         height_shift_range=0.2,
         shear_range=0.2,
@@ -114,9 +114,7 @@ def generate_image(img_dir, save_dir, prefix, gen_num=1, save_format='jpeg'):
         vertical_flip=True,
         fill_mode='reflect')
 
-    if os.path.isdir(save_dir):
-        pass
-    else:
+    if not os.path.isdir(save_dir):
         os.makedirs(save_dir)
 
     for file in os.listdir(img_dir):
@@ -131,6 +129,7 @@ def generate_image(img_dir, save_dir, prefix, gen_num=1, save_format='jpeg'):
 
             image_datagen.fit(x, augment=True)
             i = 0
+            print(image_dir)
             for _ in image_datagen.flow(x, save_to_dir=save_dir, save_prefix=prefix, save_format=save_format):
                 i += 1
                 if i >= gen_num:
