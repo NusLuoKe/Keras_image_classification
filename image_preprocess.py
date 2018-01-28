@@ -156,3 +156,23 @@ def rename_files(file_dir, new_prefix):
         newDir = os.path.join(file_dir, newName + filetype)
         os.rename(oldDir, newDir)
         num += 1
+
+
+def delete_file_folder(file_dir):
+    '''
+    :param file_dir: file path or the directory of the entire folder that need to be delete
+    :return:
+    '''
+    if os.path.isfile(file_dir):
+        try:
+            os.remove(file_dir)
+        except:
+            pass
+    elif os.path.isdir(file_dir):
+        for item in os.listdir(file_dir):
+            item_dir = os.path.join(file_dir, item)
+            delete_file_folder(item_dir)
+        try:
+            os.rmdir(file_dir)
+        except:
+            pass

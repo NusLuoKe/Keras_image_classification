@@ -4,7 +4,7 @@
 # @Author  : NusLuoKe
 
 import os
-from image_preprocess import resize_img, rename_files, generate_image, clip_resize_img
+from image_preprocess import resize_img, rename_files, generate_image, clip_resize_img, delete_file_folder
 
 # followings are my default testing directories, when use this script, comment these 4 lines.
 image_dir = 'T:/data_augmentation_demo/original_images'
@@ -54,4 +54,7 @@ for resi_image in os.listdir(resized_img_dir):
         clip_resize_img(ori_img=ori_img, dst_img=dst_img, dst_w=dst_w, dst_h=dst_h, save_q=save_q)
 
 generate_image(img_dir=clipResized_img_dir, save_dir=augmented_img_dir, prefix=prefix, gen_num=gen_num)
-rename_files(file_dir=augmented_img_dir, new_prefix='pet')
+rename_files(file_dir=augmented_img_dir, new_prefix=prefix)
+
+delete_file_folder(resized_img_dir)
+delete_file_folder(clipResized_img_dir)
