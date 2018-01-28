@@ -4,27 +4,27 @@
 # @Author  : NusLuoKe
 
 import os
-from image_preprocess import resize_img, rename_files, generate_image, clip_resize_img, delete_file_folder
+from image_preprocess_util import resize_img, rename_files, generate_image, clip_resize_img, delete_file_folder
 
 # followings are my default testing directories, when use this script, comment these 4 lines.
-image_dir = 'T:/data_augmentation_demo/original_images'
-resized_img_dir = 'T:/data_augmentation_demo/resized_images'
-clipResized_img_dir = 'T:/data_augmentation_demo/clipResized_img_dir_images'
-augmented_img_dir = 'T:/data_augmentation_demo/augmented_images'
+image_dir = 'T:/Test/dogs'
+resized_img_dir = 'T:/Test/r_cats'
+clipResized_img_dir = 'T:/Test/cr_cats'
+augmented_img_dir = 'T:/Test/aug_dogs'
 
 # compress the image.
 # eg: ori: 100*60 -> set resize_img_capped_len = 50 -> des: 50*30
-resize_img_capped_len = 320
+resize_img_capped_len = 150
 
 # crop the image to the specified size.
-clip_resize_img_w = 299
-clip_resize_img_h = 299
+clip_resize_img_w = 128
+clip_resize_img_h = 128
 
 # number of new generate images from per image
 gen_num = 10
 
 # prefix of the name of augment images
-prefix = 'lesion'
+prefix = 'cat'
 
 if not os.path.isdir(resized_img_dir):
     os.makedirs(resized_img_dir)

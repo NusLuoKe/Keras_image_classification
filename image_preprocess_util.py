@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2018/1/17 15:29
-# @File    : image_preprocess.py
+# @File    : image_preprocess_util.py
 # @Author  : NusLuoKe
 
 
