@@ -33,78 +33,8 @@ def cnn01(input_shape):
     model.add(Activation('relu'))
 
     # output
-    model.add(Dense(10))
-    model.add(Activation('softmax'))
+    model.add(Dense(1))
+    model.add(Activation('sigmoid'))
     adam = keras.optimizers.Adam(lr=1e-4)
-    model.compile(optimizer=adam, loss='categorical_crossentropy', metrics=['accuracy'])
-    return model
-
-
-def cnn02():
-    '''
-    lenet
-    '''
-    model = Sequential()
-    model.add(
-        Conv2D(6, (5, 5), padding='valid', activation='relu', kernel_initializer='he_normal', input_shape=(32, 32, 3)))
-    model.add(MaxPool2D((2, 2), strides=(2, 2)))
-    model.add(Conv2D(16, (5, 5), padding='valid', activation='relu', kernel_initializer='he_normal'))
-    model.add(MaxPool2D((2, 2), strides=(2, 2)))
-    model.add(Flatten())
-    model.add(Dense(120, activation='relu', kernel_initializer='he_normal'))
-    model.add(Dense(84, activation='relu', kernel_initializer='he_normal'))
-    model.add(Dense(10, activation='softmax', kernel_initializer='he_normal'))
-    adam = keras.optimizers.Adam(lr=1e-4)
-    model.compile(optimizer=adam, loss='categorical_crossentropy', metrics=['accuracy'])
-    return model
-
-
-def cnn03():
-    model = Sequential()
-    model.add(Conv2D(32, (3, 3), padding='same',
-                     input_shape=(32, 32, 3)))
-    model.add(Activation('relu'))
-    model.add(Conv2D(32, (3, 3), padding='same'))
-    model.add(Activation('relu'))
-    model.add(Conv2D(32, (3, 3), padding='same'))
-    model.add(Activation('relu'))
-    model.add(Conv2D(48, (3, 3), padding='same'))
-    model.add(Activation('relu'))
-    model.add(Conv2D(48, (3, 3), padding='same'))
-    model.add(Activation('relu'))
-    model.add(MaxPool2D(pool_size=(2, 2)))
-    model.add(Dropout(0.25))
-    model.add(Conv2D(80, (3, 3), padding='same'))
-    model.add(Activation('relu'))
-    model.add(Conv2D(80, (3, 3), padding='same'))
-    model.add(Activation('relu'))
-    model.add(Conv2D(80, (3, 3), padding='same'))
-    model.add(Activation('relu'))
-    model.add(Conv2D(80, (3, 3), padding='same'))
-    model.add(Activation('relu'))
-    model.add(Conv2D(80, (3, 3), padding='same'))
-    model.add(Activation('relu'))
-    model.add(MaxPool2D(pool_size=(2, 2)))
-    model.add(Dropout(0.25))
-    model.add(Conv2D(128, (3, 3), padding='same'))
-    model.add(Activation('relu'))
-    model.add(Conv2D(128, (3, 3), padding='same'))
-    model.add(Activation('relu'))
-    model.add(Conv2D(128, (3, 3), padding='same'))
-    model.add(Activation('relu'))
-    model.add(Conv2D(128, (3, 3), padding='same'))
-    model.add(Activation('relu'))
-    model.add(Conv2D(128, (3, 3), padding='same'))
-    model.add(Activation('relu'))
-    model.add(GlobalMaxPool2D())
-    model.add(Dropout(0.25))
-
-    model.add(Dense(500))
-    model.add(Activation('relu'))
-    model.add(Dropout(0.25))
-    model.add(Dense(10))
-    model.add(Activation('softmax'))
-
-    adam = keras.optimizers.Adam(lr=1e-4)
-    model.compile(optimizer=adam, loss='categorical_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer=adam, loss='binary_crossentropy', metrics=['accuracy'])
     return model

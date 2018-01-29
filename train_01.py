@@ -9,12 +9,13 @@ from model_util import load_data
 import numpy as np
 
 # load data
-data_1, label_1 = load_data('T:/Test/cats', 0)
-data_2, label_2 = load_data('T:/Test/dogs', 1)
+data_1, label_1 = load_data(image_dir='T:/Test/cats', image_label=0, image_size=128, channels=3)
+data_2, label_2 = load_data(image_dir='T:/Test/dogs', image_label=1, image_size=128, channels=3)
 
 data = np.vstack((data_1, data_2))
 label = np.vstack((label_1, label_2))
-print(data.shape, label.shape)
+# print(data.shape, label.shape)
+# print(label)
 
 num_samples = len(label)
 train_val = int(0.2 * num_samples)
@@ -29,7 +30,7 @@ nb_epoch = 50
 input_shape = (128, 128, 3)
 model = models.cnn01(input_shape)
 # print the model structure
-print(model.summary())
+# print(model.summary())
 
 # train the model
 h = model.fit(x_train, y_train, epochs=nb_epoch, batch_size=batch_size, validation_data=(x_test, y_test),
