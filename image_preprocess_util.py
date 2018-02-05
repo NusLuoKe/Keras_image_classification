@@ -129,7 +129,6 @@ def generate_image(img_dir, save_dir, prefix, gen_num=1, save_format='jpeg'):
 
             image_datagen.fit(x, augment=True)
             i = 0
-            print(image_dir)
             for _ in image_datagen.flow(x, save_to_dir=save_dir, save_prefix=prefix, save_format=save_format):
                 i += 1
                 if i >= gen_num:

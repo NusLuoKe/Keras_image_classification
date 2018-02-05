@@ -29,5 +29,3 @@ def load_data(image_dir, image_label, image_size=128, channels=3):
 
     return data, labels
 
-
-

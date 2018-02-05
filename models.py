@@ -35,6 +35,7 @@ def cnn01(input_shape):
     # output
     model.add(Dense(1))
     model.add(Activation('sigmoid'))
-    adam = keras.optimizers.Adam(lr=1e-4)
-    model.compile(optimizer=adam, loss='binary_crossentropy', metrics=['accuracy'])
+    # adam = keras.optimizers.Adam(lr=1e-4)
+    rms = keras.optimizers.RMSprop()
+    model.compile(optimizer=rms, loss='binary_crossentropy', metrics=['accuracy'])
     return model

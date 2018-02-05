@@ -7,10 +7,10 @@ import os
 from image_preprocess_util import resize_img, rename_files, generate_image, clip_resize_img, delete_file_folder
 
 # followings are my default testing directories, when use this script, comment these 4 lines.
-image_dir = 'T:/Test/dogs'
+image_dir = 'T:/Cat_Dog/cat'
 resized_img_dir = 'T:/Test/r_cats'
 clipResized_img_dir = 'T:/Test/cr_cats'
-augmented_img_dir = 'T:/Test/aug_dogs'
+augmented_img_dir = 'T:/Cat_Dog/cats'
 
 # compress the image.
 # eg: ori: 100*60 -> set resize_img_capped_len = 50 -> des: 50*30
@@ -21,7 +21,7 @@ clip_resize_img_w = 128
 clip_resize_img_h = 128
 
 # number of new generate images from per image
-gen_num = 10
+gen_num = 1
 
 # prefix of the name of augment images
 prefix = 'cat'
