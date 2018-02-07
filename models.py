@@ -5,7 +5,7 @@
 
 import keras
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, Activation, Flatten, GlobalMaxPool2D
+from keras.layers import Dense, Dropout, Activation, Flatten
 from keras.layers import Conv2D, MaxPool2D
 
 
@@ -29,14 +29,13 @@ def cnn01(input_shape):
 
     # hidden
     model.add(Flatten())
-    model.add(Dense(1024))
+    model.add(Dense(64))
     model.add(Activation('relu'))
 
     # output
     model.add(Dense(1))
     model.add(Activation('sigmoid'))
-    rms = keras.optimizers.RMSprop()
-    model.compile(optimizer=rms, loss='binary_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer='rmsprop', loss='binary_crossentropy', metrics=['accuracy'])
     return model
 
 

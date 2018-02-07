@@ -5,11 +5,13 @@
 
 '''
 training image size is 64*64*3
+{'cat': 0, 'dog': 1}
 train model 01
 '''
 import os
-
+import time
 from keras.preprocessing.image import ImageDataGenerator
+from util import visualize_prediciton, plot_acc_loss
 
 import models
 
@@ -20,8 +22,7 @@ validation_dir = 'T:/keras_kaggle/data/validation'
 # pre-settings
 target_size = (64, 64)
 batch_size = 32
-epochs = 50
-
+epochs = 2
 # load model
 input_shape = (64, 64, 3)
 model = models.cnn01(input_shape=input_shape)
@@ -40,8 +41,8 @@ test_datagen = ImageDataGenerator(rescale=1. / 255)
 # this is a generator that will read pictures of training set
 # batches of augmented image data
 train_generator = train_datagen.flow_from_directory(
-    directory=train_dir,  # this is the target directory
-    target_size=target_size,  # all images will be resized to 150x150
+    directory=train_dir,
+    target_size=target_size,
     batch_size=batch_size,
     class_mode='binary')  # since we use binary_crossentropy loss, we need binary labels
 
@@ -52,15 +53,34 @@ validation_generator = test_datagen.flow_from_directory(
     batch_size=batch_size,
     class_mode='binary')
 
-model.fit_generator(generator=train_generator,
-                    epochs=epochs,
-                    verbose=2,
-                    validation_data=validation_generator,
-                    )
+# print(train_generator.class_indices)
+# print(validation_generator.class_indices)
+# print(len(train_generator))
+# print(len(train_generator[1][1]))
+#
+# print(validation_generator[1][1])
+#
+# print(validation_generator[1][1][0])
+# print(validation_generator[1][1][1])
+
+start = time.time()
+h = model.fit_generator(generator=train_generator,
+                        epochs=epochs,
+                        verbose=2,
+                        validation_data=validation_generator,
+                        )
 
 model_path = 'T:/keras_kaggle/models'
-weights_path = os.path.join(model_path, 'model_01.h5')
-if not os.path.isdir(weights_path):
-    os.makedirs(weights_path)
+model_name = 'model_011.h5'
+weights_path = os.path.join(model_path, model_name)
+if not os.path.isdir(model_path):
+    os.makedirs(model_path)
 
 model.save_weights(weights_path)
+end = time.time()
+time_spend = end - start
+print('@ Overall time spend is %.2f seconds.' % time_spend)
+
+# plot figures of accuracy and loss of every epoch and a visible test result
+plot_acc_loss(h, epochs)
+visualize_prediciton(model, validation_generator,image_size=(64, 64, 3))

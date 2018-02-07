@@ -52,7 +52,7 @@ def save_bottleneck_features(input_shape):
     bottleneck_features_train = model.predict_generator(train_generator, steps=num_train_sample)
     print('Training set predict generator done!.')
 
-    np.save(open('bottleneck_features_train.npy', 'wr'), bottleneck_features_train)
+    np.save(open('bottleneck_features_train.npy', 'w'), bottleneck_features_train)
 
     # test image generator
     test_generator = datagen.flow_from_directory(
@@ -67,7 +67,7 @@ def save_bottleneck_features(input_shape):
     bottleneck_features_validation = model.predict_generator(test_generator, steps=num_test_sample)
     print('Test set predict generator done!.')
 
-    np.save(open('bottleneck_features_validation.npy', 'wr'), bottleneck_features_validation)
+    np.save(open('bottleneck_features_validation.npy', 'w'), bottleneck_features_validation)
 
 
 from keras.layers import Flatten, Dropout, Dense
@@ -99,7 +99,13 @@ def train_top_model():
 
     model.save_weights(weights_path)
 
+
 start = time.time()
 save_bottleneck_features(input_shape=input_shape)
 end = time.time()
-print('@ overall time spend is %.2f seconds' % (end - start))
+print('@1 overall time spend is %.2f seconds' % (end - start))
+
+start = time.time()
+train_top_model()
+end = time.time()
+print('@2 overall time spend is %.2f seconds' % (end - start))
