@@ -21,11 +21,12 @@ validation_dir = 'T:/keras_kaggle/data/validation'
 
 # pre-settings
 target_size = (64, 64)
-batch_size = 32
+batch_size = 16
 epochs = 2
 # load model
 input_shape = (64, 64, 3)
 model = models.cnn01(input_shape=input_shape)
+
 
 # this is the augmentation configuration we will use for training
 train_datagen = ImageDataGenerator(
@@ -71,7 +72,7 @@ h = model.fit_generator(generator=train_generator,
                         )
 
 model_path = 'T:/keras_kaggle/models'
-model_name = 'model_011.h5'
+model_name = 'model_0121.h5'
 weights_path = os.path.join(model_path, model_name)
 if not os.path.isdir(model_path):
     os.makedirs(model_path)
@@ -83,4 +84,4 @@ print('@ Overall time spend is %.2f seconds.' % time_spend)
 
 # plot figures of accuracy and loss of every epoch and a visible test result
 plot_acc_loss(h, epochs)
-visualize_prediciton(model, validation_generator,image_size=(64, 64, 3))
+visualize_prediciton(model, validation_generator, image_size=(64, 64, 3))

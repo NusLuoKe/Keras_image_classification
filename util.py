@@ -19,9 +19,6 @@ def visualize_prediciton(model, validation_generator, image_size):
     num_batch = len(validation_generator)
     num_image_per_batch = len(validation_generator[0][1])
     rand_batch = np.random.randint(num_batch)
-    # rand_image = np.random.randint(num_image_per_batch)
-    # x_test = validation_generator[rand_batch][0][rand_image]
-    # y_test = validation_generator[rand_batch][1][rand_image]
 
     x_test = validation_generator[rand_batch][0]
 
@@ -33,14 +30,24 @@ def visualize_prediciton(model, validation_generator, image_size):
         1: 'dog',
     }
 
-    rand_id = np.random.choice(range(num_image_per_batch), size=num_show_img)
+    # rand_id = np.random.choice(range(num_image_per_batch), size=num_show_img)
+    rand_id = np.array(range(10))
     y_true = [y_test[i] for i in rand_id]
     y_true = np.argmax(y_true, axis=1)
     y_true = [class_name[name] for name in y_true]
 
     x_pred = np.array([x_test[i] for i in rand_id])
     y_pred = model.predict(x_pred)
-    y_pred = np.argmax(y_pred, axis=1)
+
+    y_pred_ = []
+    for pred in y_pred:
+        if pred[0] < 0.5:
+            pred[0] = 0
+        else:
+            pred[0] = 1
+        y_pred_.append(pred[0])
+    y_pred = y_pred_
+
     y_pred = [class_name[name] for name in y_pred]
     plt.figure(figsize=(15, 7))
     for i in range(num_show_img):
