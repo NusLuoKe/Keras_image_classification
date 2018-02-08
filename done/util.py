@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from keras.utils import to_categorical
 
+
 def visualize_prediciton(model, validation_generator, image_size):
     '''
     :param model: training model
@@ -17,7 +18,7 @@ def visualize_prediciton(model, validation_generator, image_size):
     num_show_img = 10
 
     num_batch = len(validation_generator)
-    num_image_per_batch = len(validation_generator[0][1])
+    # num_image_per_batch = len(validation_generator[0][1])
     rand_batch = np.random.randint(num_batch)
 
     x_test = validation_generator[rand_batch][0]

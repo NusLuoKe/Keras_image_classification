@@ -3,10 +3,9 @@
 # @File    : models.py
 # @Author  : NusLuoKe
 
-import keras
-from keras.models import Sequential
-from keras.layers import Dense, Dropout, Activation, Flatten
 from keras.layers import Conv2D, MaxPool2D
+from keras.layers import Dense, Activation, Flatten
+from keras.models import Sequential
 
 
 # model01

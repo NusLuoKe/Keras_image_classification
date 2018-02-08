@@ -3,7 +3,7 @@
 # @File    : train_01.py
 # @Author  : NusLuoKe
 
-import models
+from done import models
 import os
 from useless.model_util import load_data
 import numpy as np

@@ -4,7 +4,7 @@
 # @Author  : NusLuoKe
 
 import os
-from image_preprocess_util import resize_img, rename_files, generate_image, clip_resize_img, delete_file_folder
+from done.image_preprocess_util import resize_img, rename_files, generate_image, clip_resize_img, delete_file_folder
 
 # followings are my default testing directories, when use this script, comment these 4 lines.
 image_dir = 'T:/Cat_Dog/cat'

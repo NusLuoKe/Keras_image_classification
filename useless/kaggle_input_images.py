@@ -3,7 +3,7 @@
 # @File    : kaggle_input_images.py
 # @Author  : NusLuoKe
 
-import image_preprocess_util
+from done import image_preprocess_util
 import os
 import time
 

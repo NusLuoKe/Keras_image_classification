@@ -11,9 +11,9 @@ train model 01
 import os
 import time
 from keras.preprocessing.image import ImageDataGenerator
-from util import visualize_prediciton, plot_acc_loss
+from done.util import visualize_prediciton, plot_acc_loss
 
-import models
+from done import models
 
 # the directory of training set and validation set
 train_dir = 'T:/keras_kaggle/data/train'
@@ -54,15 +54,6 @@ validation_generator = test_datagen.flow_from_directory(
     batch_size=batch_size,
     class_mode='binary')
 
-# print(train_generator.class_indices)
-# print(validation_generator.class_indices)
-# print(len(train_generator))
-# print(len(train_generator[1][1]))
-#
-# print(validation_generator[1][1])
-#
-# print(validation_generator[1][1][0])
-# print(validation_generator[1][1][1])
 
 start = time.time()
 h = model.fit_generator(generator=train_generator,
