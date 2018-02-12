@@ -5,7 +5,7 @@
 
 from keras import models
 
-from done.util import *
+from done.result_visualize_util import *
 
 # Test set directory
 test_dir = 'T:/keras_kaggle/data/test'

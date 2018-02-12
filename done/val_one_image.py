@@ -7,7 +7,7 @@ import os
 
 from keras.models import load_model
 
-from done.util import pred_one_img
+from done.result_visualize_util import pred_one_img
 
 model_dir = 'T:/keras_kaggle/models/'
 model_name = 'model_1.h5'

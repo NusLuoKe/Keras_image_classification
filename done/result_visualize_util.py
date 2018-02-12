@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2018/2/7 13:20
-# @File    : util.py
+# @File    : result_visualize_util.py
 # @Author  : NusLuoKe
 
 import matplotlib.pyplot as plt
@@ -20,11 +20,9 @@ def visualize_prediciton(model, validation_generator, image_size):
     num_show_img = 10
 
     num_batch = len(validation_generator)
-    # num_image_per_batch = len(validation_generator[0][1])
     rand_batch = np.random.randint(num_batch)
 
     x_test = validation_generator[rand_batch][0]
-
     y_test = validation_generator[rand_batch][1]
     y_test = to_categorical(y_test, num_classes=2)
 
@@ -33,7 +31,6 @@ def visualize_prediciton(model, validation_generator, image_size):
         1: 'dog',
     }
 
-    # rand_id = np.random.choice(range(num_image_per_batch), size=num_show_img)
     rand_id = np.array(range(10))
     y_true = [y_test[i] for i in rand_id]
     y_true = np.argmax(y_true, axis=1)
@@ -101,6 +98,7 @@ def test_batch_gen(test_dir, test_class01_dir, target_size):
 
     return x_test, y_test
 
+
 def pred_one_img(model, image_dir, input_shape=(64, 64), class_01='class_01', class_02='class_02'):
     dst_w = int(input_shape[0])
     dst_h = int(input_shape[1])
@@ -136,4 +134,3 @@ def pred_one_img(model, image_dir, input_shape=(64, 64), class_01='class_01', cl
 
     os.remove(temp_dir01)
     os.remove(temp_dir02)
-

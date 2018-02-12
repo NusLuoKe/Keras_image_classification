@@ -10,8 +10,8 @@ train model 01
 '''
 import time
 
-from done import models
-from done.util import *
+from done import my_models
+from done.result_visualize_util import *
 
 # the directory of training set and validation set
 train_dir = 'T:/keras_kaggle/data/train'
@@ -23,7 +23,7 @@ batch_size = 16
 epochs = 100
 # load model
 input_shape = (64, 64, 3)
-model = models.cnn01(input_shape=input_shape)
+model = my_models.cnn01(input_shape=input_shape)
 
 # this is the augmentation configuration we will use for training
 train_datagen = ImageDataGenerator(

@@ -3,7 +3,7 @@
 # @File    : train_01.py
 # @Author  : NusLuoKe
 
-from done import models
+from done import my_models
 import os
 from useless.load_data import load_data
 import numpy as np
@@ -45,7 +45,7 @@ batch_size = 16
 nb_epoch = 3
 
 input_shape = (64, 64, 3)
-model = models.cnn01(input_shape)
+model = my_models.cnn01(input_shape)
 
 # # print the model structure
 # print(model.summary())
