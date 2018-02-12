@@ -50,11 +50,15 @@ def visualize_prediciton(model, validation_generator, image_size):
     y_pred = y_pred_
 
     y_pred = [class_name[name] for name in y_pred]
+
     plt.figure(figsize=(15, 7))
     for i in range(num_show_img):
         plt.subplot(2, 5, i + 1)
-        plt.imshow(x_pred[i].reshape(image_size), cmap='gray')
-        plt.title('True: %s \n Pred: %s' % (y_true[i], y_pred[i]), size=15)
+        plt.imshow(x_pred[i].reshape(image_size))
+        if y_true[i] == y_pred[i]:
+            plt.title('True: %s \n Pred: %s' % (y_true[i], y_pred[i]), size=15)
+        else:
+            plt.title('True: %s \n Pred: %s' % (y_true[i], y_pred[i]), size=15, color='red')
     plt.show()
 
 

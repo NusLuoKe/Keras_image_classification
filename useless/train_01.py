@@ -5,7 +5,7 @@
 
 from done import models
 import os
-from useless.model_util import load_data
+from useless.load_data import load_data
 import numpy as np
 
 cat_train = 'T:/kaggle/train/cat'

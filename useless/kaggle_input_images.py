@@ -7,11 +7,11 @@ from done import image_preprocess_util
 import os
 import time
 
-dog_ori_dir = 'T:/kaggle/dog_train'
-cat_ori_dir = 'T:/kaggle/cat_train'
+dog_ori_dir = 'T:/keras_kaggle/data/test/dogdog'
+cat_ori_dir = 'T:/keras_kaggle/data/test/catcat'
 
-dog_dst_dir = 'T:/kaggle/train/dog'
-cat_dst_dir = 'T:/kaggle/train/cat'
+dog_dst_dir = 'T:/keras_kaggle/data/test/dog'
+cat_dst_dir = 'T:/keras_kaggle/data/test/cat'
 
 dog_temp_dir = 'T:/kaggle/train/temp_dog'
 cat_temp_dir = 'T:/kaggle/train/temp_cat'

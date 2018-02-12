@@ -22,7 +22,7 @@ validation_dir = 'T:/keras_kaggle/data/validation'
 # pre-settings
 target_size = (64, 64)
 batch_size = 16
-epochs = 2
+epochs = 100
 # load model
 input_shape = (64, 64, 3)
 model = models.cnn01(input_shape=input_shape)
@@ -63,12 +63,12 @@ h = model.fit_generator(generator=train_generator,
                         )
 
 model_path = 'T:/keras_kaggle/models'
-model_name = 'model_0121.h5'
+model_name = 'model_1.h5'
 weights_path = os.path.join(model_path, model_name)
 if not os.path.isdir(model_path):
     os.makedirs(model_path)
 
-model.save_weights(weights_path)
+model.save(weights_path)
 end = time.time()
 time_spend = end - start
 print('@ Overall time spend is %.2f seconds.' % time_spend)
@@ -76,3 +76,10 @@ print('@ Overall time spend is %.2f seconds.' % time_spend)
 # plot figures of accuracy and loss of every epoch and a visible test result
 plot_acc_loss(h, epochs)
 visualize_prediciton(model, validation_generator, image_size=(64, 64, 3))
+
+# # print loss and accuracy on the whole training set and test set
+# loss, accuracy = model.evaluate(x_train, y_train, verbose=0)
+# print("Training Accuracy = %.2f %%     loss = %f" % (accuracy * 100, loss))
+# loss, accuracy = model.evaluate(x_test, y_test, verbose=0)
+# print("Testing Accuracy = %.2f %%    loss = %f" % (accuracy * 100, loss))
+
