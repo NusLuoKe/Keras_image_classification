@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from keras.utils import to_categorical
 
+from done.image_preprocess_util import *
+
 
 def visualize_prediciton(model, validation_generator, image_size):
     '''
@@ -83,3 +85,55 @@ def plot_acc_loss(h, nb_epoch):
     plt.legend()
     plt.grid(True)
     plt.show()
+
+
+def test_batch_gen(test_dir, test_class01_dir, target_size):
+    test_batch_len = len(os.listdir(test_class01_dir))
+    test_datagen = ImageDataGenerator(rescale=1. / 255)
+    test_generator = test_datagen.flow_from_directory(
+        directory=test_dir,
+        target_size=target_size,
+        batch_size=test_batch_len,
+        class_mode='binary')
+
+    x_test = test_generator[0][0]
+    y_test = test_generator[0][1]
+
+    return x_test, y_test
+
+def pred_one_img(model, image_dir, input_shape=(64, 64), class_01='class_01', class_02='class_02'):
+    dst_w = int(input_shape[0])
+    dst_h = int(input_shape[1])
+    temp_path_ = os.path.split(image_dir)
+    temp_path = temp_path_[0]
+    temp_name01 = 'pred_one_image_.jpg'
+    temp_name02 = 'pred_one_image.jpg'
+    temp_dir01 = os.path.join(temp_path, temp_name01)
+    temp_dir02 = os.path.join(temp_path, temp_name02)
+
+    resize_img(image_dir, temp_dir01, dst_w, dst_h, save_q=100)
+    clip_resize_img(temp_dir01, temp_dir02, dst_w, dst_h, save_q=100)
+
+    img = Image.open(temp_dir02)
+    img_arr = np.asarray(img, dtype="float32")
+    x_ = np.expand_dims(img_arr, axis=0)
+    x = x_ / 255
+
+    y = model.predict(x)
+    y_pred = y[0][0]
+
+    ori_img = Image.open(image_dir)
+    plt.figure()
+    plt.imshow(ori_img)
+    if y_pred > 0.5:
+        print("This is a image of", class_01, 'with a probability of: %.2f' % (y_pred * 100) + '%')
+        plt.title('%s \n Prob: %.2f%%' % (class_01, y_pred * 100))
+    else:
+        y_pred = 1 - y_pred
+        print("This is a image of", class_02, 'with a probability of: %.2f' % (y_pred * 100) + '%')
+        plt.title('%s \n Prob: %.2f%%' % (class_02, y_pred * 100))
+    plt.show()
+
+    os.remove(temp_dir01)
+    os.remove(temp_dir02)
+

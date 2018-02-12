@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2018/2/4 21:14
-# @File    : train_02.py
+# @File    : train_basic.py
 # @Author  : NusLuoKe
 
 '''
