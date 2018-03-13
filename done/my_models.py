@@ -39,4 +39,3 @@ def cnn01(input_shape):
 
 
 
-
