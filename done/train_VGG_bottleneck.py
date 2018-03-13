@@ -10,8 +10,6 @@ training image size is 64*64*3
 {'cat': 0, 'dog': 1}
 '''
 
-import time
-
 from keras.applications import VGG16
 from keras.layers import Dense, Flatten
 from keras.layers import Dropout
@@ -19,7 +17,7 @@ from keras.models import Sequential
 
 from done.result_visualize_util import *
 
-top_model_weights_path = 'T:/keras_kaggle/models/VGG_bottleneck_feature/bottleneck_fc_model.h5'
+top_model_weights_path = 'T:/keras_kaggle/models/VGG_bottleneck_feature/bottleneck_fc_model_weights.h5'
 bottleneck_features_train_npy = 'T:/keras_kaggle/models/VGG_bottleneck_feature/bottleneck_features_train.npy'
 bottleneck_features_validation_npy = 'T:/keras_kaggle/models/VGG_bottleneck_feature/bottleneck_features_validation.npy'
 
@@ -34,7 +32,7 @@ nb_validation_samples = 1000
 # pre-settings
 target_size = (64, 64)
 batch_size = 16
-epochs = 100
+epochs = 3
 
 # load model
 input_shape = (64, 64, 3)
@@ -91,16 +89,21 @@ def train_top_model():
     model.compile(optimizer='rmsprop',
                   loss='binary_crossentropy', metrics=['accuracy'])
 
-    model.fit(train_data, train_labels,
-              epochs=epochs,
-              batch_size=batch_size,
-              validation_data=(validation_data, validation_labels))
-    model.save(top_model_weights_path)
+    h = model.fit(train_data, train_labels,
+                  epochs=epochs,
+                  batch_size=batch_size,
+                  validation_data=(validation_data, validation_labels),
+                  verbose=2)
+    model.save_weights(top_model_weights_path)
+    return h
 
 
-save_bottleneck_feature(model)
-print("Bottleneck feature saved!")
-time.sleep(5)
-print("Begin to train fully connected layers based on bottleneck feature!")
-train_top_model()
+# save_bottleneck_feature(model)
+# print("Bottleneck feature saved!")
+# time.sleep(5)
+# print("Begin to train fully connected layers based on bottleneck feature!")
+h = train_top_model()
 print("Done!")
+
+# plot figures of accuracy and loss of every epoch and a visible test result
+plot_acc_loss(h, epochs)
