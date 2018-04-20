@@ -19,8 +19,8 @@ validation_dir = 'T:/keras_kaggle/data/validation'
 
 # pre-settings
 target_size = (64, 64)
-batch_size = 16
-epochs = 100
+batch_size = 32
+epochs = 50
 # load model
 input_shape = (64, 64, 3)
 model = my_models.cnn01(input_shape=input_shape)
@@ -28,13 +28,16 @@ model = my_models.cnn01(input_shape=input_shape)
 # this is the augmentation configuration we will use for training
 train_datagen = ImageDataGenerator(
     rescale=1. / 255,
-    shear_range=0.2,
-    zoom_range=0.2,
-    horizontal_flip=True)
+    # shear_range=0.2,
+    # zoom_range=0.2,
+    # horizontal_flip=True
+)
+# train_datagen = ImageDataGenerator(rescale=1. / 255)
 
 # this is the augmentation configuration we will use for testing:
 # only rescaling
 val_datagen = ImageDataGenerator(rescale=1. / 255)
+# val_datagen = ImageDataGenerator()
 
 # this is a generator that will read pictures of training set
 # batches of augmented image data
@@ -73,7 +76,7 @@ print('@ Overall time spend is %.2f seconds.' % time_spend)
 plot_acc_loss(h, epochs)
 visualize_prediciton(model, validation_generator, image_size=(64, 64, 3))
 
-# # print loss and accuracy on the whole training set and test set
+# print loss and accuracy on the whole training set and test set
 test_dir = 'T:/keras_kaggle/data/test'
 test_class01_dir = 'T:/keras_kaggle/data/test/dog'
 x_test, y_test = test_batch_gen(test_dir, test_class01_dir, target_size)

@@ -5,6 +5,7 @@
 
 from keras.layers import Conv2D, MaxPool2D, Merge
 from keras.layers import Dense, Activation, Flatten
+from keras.optimizers import SGD, rmsprop
 from keras.models import Sequential
 
 
@@ -34,6 +35,8 @@ def cnn01(input_shape):
     # output
     model.add(Dense(1))
     model.add(Activation('sigmoid'))
+    # sgd =SGD(lr=0.001)
+    # model.compile(optimizer=sgd, loss='binary_crossentropy', metrics=['accuracy'])
     model.compile(optimizer='rmsprop', loss='binary_crossentropy', metrics=['accuracy'])
     return model
 

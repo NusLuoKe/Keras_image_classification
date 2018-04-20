@@ -49,12 +49,14 @@ def my_two_inputgenerator(generator, data_dir_01, data_dir_02, batch_size, targe
         directory=data_dir_01,
         target_size=target_size,
         batch_size=batch_size,
+        shuffle=True,
         class_mode='binary')  # since we use binary_crossentropy loss, we need binary labels
 
     generator_02 = generator.flow_from_directory(
         directory=data_dir_02,
         target_size=target_size,
         batch_size=batch_size,
+        shuffle=True,
         class_mode='binary')  # since we use binary_crossentropy loss, we need binary labels
 
     while True:
@@ -65,9 +67,12 @@ def my_two_inputgenerator(generator, data_dir_01, data_dir_02, batch_size, targe
 
 final_train_generator = my_two_inputgenerator(generator=train_datagen, data_dir_01=train_dir, data_dir_02=train_dir,
                                               batch_size=batch_size, target_size=target_size)
+print(final_train_generator[1])
+print("@@@@@@@@@@@@@@@@@@@@@@@")
 final_validation_generator = my_two_inputgenerator(generator=val_datagen, data_dir_01=validation_dir,
                                                    data_dir_02=validation_dir,
                                                    batch_size=batch_size, target_size=target_size)
+print(".....................")
 
 start = time.time()
 h = model.fit_generator(generator=final_train_generator,
@@ -78,13 +83,13 @@ h = model.fit_generator(generator=final_train_generator,
                         validation_steps=int(ceil(num_validation_samples / batch_size))
                         )
 
-model_path = 'T:/keras_kaggle/models'
-model_name = 'model_merge_1.h5'
-weights_path = os.path.join(model_path, model_name)
-if not os.path.isdir(model_path):
-    os.makedirs(model_path)
-
-model.save(weights_path)
-end = time.time()
-time_spend = end - start
-print('@ Overall time spend is %.2f seconds.' % time_spend)
+# model_path = 'T:/keras_kaggle/models'
+# model_name = 'model_merge_1.h5'
+# weights_path = os.path.join(model_path, model_name)
+# if not os.path.isdir(model_path):
+#     os.makedirs(model_path)
+#
+# model.save(weights_path)
+# end = time.time()
+# time_spend = end - start
+# print('@ Overall time spend is %.2f seconds.' % time_spend)
