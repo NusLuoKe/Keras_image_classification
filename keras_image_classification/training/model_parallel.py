@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # @Time    : 2018/3/13 22:17
-# @File    : train_merge.py
+# @File    : model_parallel.py
 # @Author  : NusLuoKe
 
 '''
@@ -11,8 +11,8 @@ train model 01
 '''
 from math import ceil
 import time
-from done import my_models
-from done.result_visualize_util import *
+from keras_image_classification import cnn_models
+from keras_image_classification.visualization_util import *
 
 # the directory of training set and validation set
 train_dir = 'T:/keras_kaggle/data/train'
@@ -27,7 +27,7 @@ batch_size = 16
 epochs = 8
 # load model
 input_shape = (64, 64, 3)
-model = my_models.cnn03(input_shape=input_shape)
+model = cnn_models.cnn03(input_shape=input_shape)
 
 # this is the augmentation configuration we will use for training
 train_datagen = ImageDataGenerator(
@@ -35,7 +35,6 @@ train_datagen = ImageDataGenerator(
     shear_range=0.2,
     zoom_range=0.2,
     horizontal_flip=True)
-
 
 # this is the augmentation configuration we will use for testing:
 # only rescaling
@@ -68,11 +67,11 @@ def my_two_inputgenerator(generator, data_dir_01, data_dir_02, batch_size, targe
 final_train_generator = my_two_inputgenerator(generator=train_datagen, data_dir_01=train_dir, data_dir_02=train_dir,
                                               batch_size=batch_size, target_size=target_size)
 print(final_train_generator[1])
-print("@@@@@@@@@@@@@@@@@@@@@@@")
+print("@" * 30)
 final_validation_generator = my_two_inputgenerator(generator=val_datagen, data_dir_01=validation_dir,
                                                    data_dir_02=validation_dir,
                                                    batch_size=batch_size, target_size=target_size)
-print(".....................")
+print("." * 30)
 
 start = time.time()
 h = model.fit_generator(generator=final_train_generator,

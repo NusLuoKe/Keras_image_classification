@@ -1,3 +1,5 @@
 # Image_Classification
-***Use machine learning method to classify images with my own image data set***
+***Using Keras to do image classificaion for images in jpeg or png format***
+
+
 

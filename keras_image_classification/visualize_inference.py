@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2018/2/8 20:38
-# @File    : val_&_visualize.py
+# @File    : visualize_inference.py
 # @Author  : NusLuoKe
 
 from keras import models
 
-from done.result_visualize_util import *
+from keras_image_classification.visualization_util import *
 
 # Test set directory
 test_dir = 'T:/keras_kaggle/data/test'
@@ -23,7 +23,7 @@ test_generator = test_datagen.flow_from_directory(
     target_size=target_size,
     batch_size=batch_size,
     class_mode='binary')
-print('done')
+print('keras_image_classification')
 
 model_dir = 'T:/keras_kaggle/models/'
 model_name = 'model_1.h5'
@@ -40,5 +40,5 @@ test_class01_dir = 'T:/keras_kaggle/data/test/dog'
 x_test, y_test = test_batch_gen(test_dir, test_class01_dir, target_size)
 
 print("Test batch generated!Please wait for the final test result:")
-loss, accuracy = model.evaluate(x_test, y_test, verbose=1)
+loss, accuracy = model.evaluate(0, y_test, verbose=1)
 print("Testing Accuracy = %.2f %%    loss = %f" % (accuracy * 100, loss))

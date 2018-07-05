@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # @Time    : 2018/3/12 16:04
-# @File    : train_VGG_bottleneck.py
+# @File    : vgg_bottleneck_fine_tune.py
 # @Author  : NusLuoKe
 
 
@@ -20,7 +20,7 @@ from keras.models import Model
 from keras.models import Sequential
 from keras.regularizers import l2
 
-from done.result_visualize_util import *
+from keras_image_classification.visualization_util import *
 
 top_model_weights_path = 'T:/keras_kaggle/models/VGG_bottleneck_feature/bottleneck_fc_model_weights.h5'
 bottleneck_features_train_npy = 'T:/keras_kaggle/models/VGG_bottleneck_feature/bottleneck_features_train.npy'

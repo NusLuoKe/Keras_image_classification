@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2018/2/12 16:11
-# @File    : val_one_image.py
+# @File    : inference_single_image.py
 # @Author  : NusLuoKe
+
 
 import os
 
 from keras.models import load_model
 
-from done.result_visualize_util import pred_one_img
+from keras_image_classification.visualization_util import pred_one_img
 
 model_dir = 'T:/keras_kaggle/models/'
 model_name = 'model_1.h5'

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2018/1/28 9:40
-# @File    : my_models.py
+# @File    : cnn_models.py
 # @Author  : NusLuoKe
 
 from keras.layers import Conv2D, MaxPool2D, Merge

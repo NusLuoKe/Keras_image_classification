@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2018/2/7 13:20
-# @File    : result_visualize_util.py
+# @File    : visualization_util.py
 # @Author  : NusLuoKe
 
 import matplotlib.pyplot as plt
 import numpy as np
 from keras.utils import to_categorical
 
-from done.image_preprocess_util import *
+from keras_image_classification.image_preprocess_util import *
 
 
 def visualize_prediciton(model, validation_generator, image_size):
